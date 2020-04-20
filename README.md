@@ -36,9 +36,13 @@ dtoverlay=hifiberry-dacplus
 /etc/asound.conf
 
 pcm.!default {
+
   type pulse
+  
 }
 
 ctl.!default {
+
   type pulse
+  
 }
