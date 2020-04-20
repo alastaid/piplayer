@@ -1,7 +1,7 @@
 # piplayer
 My configuration for Raspberry Pi audio player
 
-Looking on the web I know many have been playing around with diiferent configurations, this is mine. I have a number of Pi's (mixture of Model B Plus Rev 1.2 & Pi 3's) in the house all with either a HiFiBerry DacPlus or HiFiBerry Amp.
+Looking on the web I know many have been playing around with different configurations, this is mine. I have a number of Pi's (mixture of Model B Plus Rev 1.2 & Pi 3's) in the house all with either a HiFiBerry DacPlus or HiFiBerry Amp.
 
 Requirements are:
 
