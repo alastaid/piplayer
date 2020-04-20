@@ -68,6 +68,11 @@ daemon-binary = /usr/bin/pulseaudio
 
 /etc/pulse/system.pa
 
+.ifexists module-esound-protocol-unix.so
+load-module module-esound-protocol-unix auth-anonymous=1     (just add the auth-anonymous=1)
+.endif
+load-module module-native-protocol-unix auth-anonymous=1     (just add the auth-anonymous=1)
+
 load-module module-loopback source=alsa_input.usb-0d8c_USB_PnP_Sound_Device-00.analog-mono sink=alsa_output.platform-soc_sound.stereo-fallback
 
 /etc/systemd/system/pulseaudio.service
