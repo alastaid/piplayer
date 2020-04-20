@@ -26,7 +26,10 @@ As part of the setup, make sure that the avahi-daemon config is right on the net
 /boot/config.txt
 
 #Enable audio (loads snd_bcm2835)
+
 #dtparam=audio=on
+
+
 dtoverlay=hifiberry-dacplus
 
 #################################################################
@@ -56,8 +59,11 @@ Determine the devices you want as source and sink by starting pulseaudio, then r
 /etc/pulse/client.pa
 
 default-sink = alsa_output.platform-soc_sound.stereo-fallback
+
 default-source = alsa_input.usb-0d8c_USB_PnP_Sound_Device-00.analog-mono
+
 autospawn = no
+
 daemon-binary = /usr/bin/pulseaudio
 
 /etc/pulse/system.pa
@@ -67,15 +73,22 @@ load-module module-loopback source=alsa_input.usb-0d8c_USB_PnP_Sound_Device-00.a
 /etc/systemd/system/pulseaudio.service
 
 [Unit]
+
 Description=PulseAudio system server
+
 After=avahi-daemon.service network.target
 
+
 [Service]
+
 Type=simple
+
 ExecStart=/usr/bin/pulseaudio --system --realtime --disallow-exit --no-cpu-limit
 
 [Install]
+
 WantedBy=multi-user.target
+
 
 ##############################################################
 ##  Raspotify Config
@@ -88,26 +101,45 @@ OPTIONS="--device pulse"
 /etc/systemd/system/multi-user.target.wants/raspotify.service
 
 [Unit]
+
 Description=Raspotify
+
 After=network.target pulseaudio.service
 
+
 [Service]
+
 User=raspotify
+
 Group=raspotify
+
 Restart=always
+
 RestartSec=10
+
 PermissionsStartOnly=true
+
 ExecStartPre=/bin/mkdir -m 0755 -p /var/cache/raspotify ; /bin/chown raspotify:raspotify /var/cache/raspotify
+
 Environment="DEVICE_NAME=raspotify (%H)"
+
 Environment="BITRATE=160"
+
 Environment="CACHE_ARGS=--disable-audio-cache"
+
 Environment="VOLUME_ARGS=--enable-volume-normalisation --linear-volume --initial-volume=100"
+
 Environment="BACKEND_ARGS=--backend alsa"
+
 EnvironmentFile=-/etc/default/raspotify
+
 ExecStart=/usr/bin/librespot --name ${DEVICE_NAME} $BACKEND_ARGS --bitrate ${BITRATE} $CACHE_ARGS $VOLUME_ARGS $OPTIONS
 
+
 [Install]
+
 WantedBy=multi-user.target
+
 
 ################################################################
 ## Squeezelite config
@@ -116,13 +148,19 @@ WantedBy=multi-user.target
 /etc/systemd/system/squeezelite.service
 
 [Unit]
+
 Description=Squeezelite service
+
 After=network.target snapclient.service
 
+
 [Service]
+
 ExecStart=/usr/bin/squeezelite -o pulse -n playername -s 192.168.x.x
 
+
 [Install]
+
 WantedBy=multi-user.target
 
 
