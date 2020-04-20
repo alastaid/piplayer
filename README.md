@@ -17,7 +17,7 @@ The last one is so where I am using a soundbar for the amp/speakers I can have a
 
 I ended up with pulseaudio on the clients as the default sink to the hifiberry, raspotify for spotify connect, snapcast for collection of spotify connect players, squeezelite for radio from LMS with presets configured on tunein, and lastly configuring pulseaudio for pass-through on the players with soundbars.  If I didn't use pulseaudio, something would lock up or hog the card and it wasnt reliable enough.
 
-As part of the setup, make sure that the avahi-daemon config is right on the network/players, check the /var/log/syslogs for machines looping with avahi, and to test, make sure that every machine that is to be used with raspotify can ssh pi@machine.local to each other, this proves the avahi is working.
+As part of the setup, make sure that the avahi-daemon config is right on the network/players, check the /var/log/syslogs for machines looping with avahi, and to test, make sure that every machine that is to be used with raspotify can ssh pi@machine.local to each other, this proves the avahi is working.  I have only included the changes to the config files here, instructions on how to find and install the s/w are on the net.
 
 ##############################################################
 ## Disable the on-board sound card and enable the HiFiBerry
@@ -94,6 +94,18 @@ ExecStart=/usr/bin/pulseaudio --system --realtime --disallow-exit --no-cpu-limit
 
 WantedBy=multi-user.target
 
+#############################################################
+## Snapclient config
+#############################################################
+
+/etc/systemd/system/multi-user.target.wants/snapclient.service
+
+After=network-online.target time-sync.target sound.target avahi-daemon.service pulseaudio.service (just add pulseaudio at the end)
+
+/etc/default/snapclient
+
+SNAPCLIENT_OPTS="-h 192.168.x.x"
+
 
 ##############################################################
 ##  Raspotify Config
@@ -102,6 +114,8 @@ WantedBy=multi-user.target
 /etc/default/raspotify
 
 OPTIONS="--device pulse"
+
+#BACKEND_ARGS="--backend alsa"
 
 /etc/systemd/system/multi-user.target.wants/raspotify.service
 
@@ -132,7 +146,7 @@ Environment="BITRATE=160"
 
 Environment="CACHE_ARGS=--disable-audio-cache"
 
-Environment="VOLUME_ARGS=--enable-volume-normalisation --linear-volume --initial-volume=100"
+Environment="VOLUME_ARGS=--enable-volume-normalisation --linear-volume --initial-volume=30"
 
 Environment="BACKEND_ARGS=--backend alsa"
 
