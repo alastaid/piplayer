@@ -56,7 +56,7 @@ ctl.!default {
 
 Determine the devices you want as source and sink by starting pulseaudio, then running pacm, and use list-sources and list-sinks.  For info I use pulseaudio in "system" mode, as the pi's get powered on, play music, turned off, only logged into when something has gone wrong.
 
-/etc/pulse/client.pa
+/etc/pulse/client.conf
 
 default-sink = alsa_output.platform-soc_sound.stereo-fallback
 
