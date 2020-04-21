@@ -106,6 +106,18 @@ After=network-online.target time-sync.target sound.target avahi-daemon.service p
 
 SNAPCLIENT_OPTS="-h 192.168.x.x"
 
+#############################################################
+## Snapserver Config
+#############################################################
+
+/etc/snapserver.conf
+
+stream = spotify:///librespot?name=Spotify&devicename=Downstairs&volume=50
+
+As an aside, I really wanted some other options to librespot added with snapserver, but the options are not available in snapserver by default. I followed the instructions on the snapcast repo for building snapserver and if you follow them carefully its pretty straight forward to build, I edited the options I wanted in the server/streamreader/lirespot_stream.cpp file so when I ps -ef | grep libre on the snapserver machine I get the following:
+
+/usr/bin/librespot --name Downstairs --bitrate 320 --backend pipe --initial-volume 50 --linear-volume --enable-volume-normalisation --autoplay --verbose
+
 
 ##############################################################
 ##  Raspotify Config
