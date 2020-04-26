@@ -197,5 +197,21 @@ ExecStart=/usr/bin/squeezelite -o pulse -n playername -s 192.168.x.x
 
 WantedBy=multi-user.target
 
+###################################################################
+##  Running on Raspberry Pi Model B Plus Rev 1.2
+###################################################################
+
+Due to the slower processor on the Model B, I had to make a few changes to stop the squeezelite stuttering constantly.  
+
+I overclocked the processor to the first level 800Mhz, not actually sure it still needs it.
+
+/etc/default/raspotify
+
+BITRATE="160"   It cant cope with 320
+
+/etc/systemd/system/multi-user.target.wants/squeezelite.service
+
+ExecStart=/usr/bin/squeezelite -o pulse -n "ARoom" -s 192.168.x.x -a 44100
+
 
 
